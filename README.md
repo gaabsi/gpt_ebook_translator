@@ -18,7 +18,24 @@ La pipeline s'articule ainsi :
 - on envoie chaque chapitre non traduit 1 par 1 accompagné d'un prompt au modèle GPT. 
 - on récupère la réponse traduite qu'on stocke 
 - ... on itère jusqu'a traduire tous les chapitres voulus ...
-- on prend tous les chapitres traduis qu'on assemble selon un style en css défini et on retransforme le tout en .epub
+- on prend tous les chapitres traduis qu'on assemble selon un style en css défini et on retransforme le tout en .epub  
+![schema](/images/schema/schema.png)
+
+## Contenu du projet 
+```text
+gpt_ebook_translator/ 
+├── images/
+│   ├──schema/
+│       └── schema_glo.png
+|   └──covers/
+├── main.py
+├── functions.py
+├── epub.css
+└── README.md
+```
+
+Il n'y a malheureusement aucun fichier d'input ou d'output dans ce repo afin de respecter les droits d'auteur.  
+Je vous fait confiance pour trouver les bons fichiers d'input ;) 
 
 ## Prérequis
 Pour fonctionner il faut obtenir une clé API sans quoi on ne pourra pas requêter le modèle.   
@@ -35,10 +52,14 @@ Pour ce faire voici la démarche :
 Afin de pouvoir traduire aussi **LOTM** ou tout autre ebook au format .epub.  
 Sur le terminal de votre machine physique : 
 
-Copiez le projet dans votre machine.  : 
+Copiez le projet dans votre machine et préparer le venv pour le projet  : 
 ```bash 
 cd ~
 git clone https://github.com/gaabsi/gpt_ebook_translator.git
+cd gpt_ebook_translator 
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 Ajouter au shell votre clé API et donnez lui les droits d'execution : 
@@ -52,6 +73,13 @@ Pour traduire un ebook pour pourrez ainsi procéder de la manière suivante :
 ./translate.sh {Chemin du .epub à traduire} {Chemin du .epub traduit} {Chapitre début trad} {Chapitre fin trad}
 #Exemple de traduction du tome Undying de LOTM (chap 733 à 946)
 ./translate.sh LOTM_original.epub Undying.epub 733 946
+```
+
+Bonus : ajouter une couverture au livre créé : 
+```bash
+#Déplacer l'image dans le dossier images/covers/
+mv {Chemin de votre image} {gpt_ebook_translator/images/covers/[votre_image.png]}
+ebook-meta {Chemin du .epub traduit} --cover={gpt_ebook_translator/images/covers/[votre_image.png]}
 ```
 
 Bonne lecture ! 

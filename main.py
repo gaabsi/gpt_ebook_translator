@@ -1,11 +1,13 @@
 import os
-import sys 
+import sys
+
 import openai
+
 from functions import BookTranslator
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 EPUB_ORIGINAL = sys.argv[1]
-EPUB_SORTIE= sys.argv[2]
+EPUB_SORTIE = sys.argv[2]
 FROM = int(sys.argv[3])
 TO = int(sys.argv[4])
 CSS_PATH = os.path.join(os.path.dirname(__file__), "epub.css")
@@ -23,14 +25,11 @@ PROMPT = """
  """
 
 
-translator = BookTranslator(
-    prompt=PROMPT,
-    css_path=CSS_PATH
-)
+translator = BookTranslator(prompt=PROMPT, css_path=CSS_PATH)
 
 translator.translate_epub_to_translated_epub(
     input_epub_path=EPUB_ORIGINAL,
     output_epub_path=EPUB_SORTIE,
     chapter_start=FROM,
-    chapter_end=TO
+    chapter_end=TO,
 )

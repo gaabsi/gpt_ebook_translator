@@ -1,20 +1,15 @@
 import os
 import time
+
+import ebooklib
 import openai
 import pypandoc
-import ebooklib
 from bs4 import BeautifulSoup
-from ebooklib import epub
 
 
 class BookTranslator:
     def __init__(
-        self,
-        prompt,
-        model="gpt-4o",
-        css_path=None,
-        temp_md_path=None,
-        delay=2
+        self, prompt, model="gpt-4o", css_path=None, temp_md_path=None, delay=2
     ):
         self.prompt = prompt
         self.model = model
@@ -24,31 +19,33 @@ class BookTranslator:
 
     def extract_epub_to_markdown(self, epub_path, output_md_path):
         markdown_content = []
-        book = epub.read_epub(epub_path)
+        book = ebooklib.epub.read_epub(epub_path)
 
         for item in book.get_items():
             if item.get_type() == ebooklib.ITEM_DOCUMENT:
-                soup = BeautifulSoup(item.get_content(), features='xml')  # XML parser
-                for tag in soup.find_all(['h1', 'h2', 'h3', 'h4', 'p']):
-                    if tag.name.startswith('h'):
+                soup = BeautifulSoup(item.get_content(), features="xml")  
+                for tag in soup.find_all(["h1", "h2", "h3", "h4", "p"]):
+                    if tag.name.startswith("h"):
                         level = int(tag.name[1])
-                        markdown_content.append(f"\n{'#' * level} {tag.get_text().strip()}\n")
-                    elif tag.name == 'p':
+                        markdown_content.append(
+                            f"\n{'#' * level} {tag.get_text().strip()}\n"
+                        )
+                    elif tag.name == "p":
                         text = ""
                         for child in tag.descendants:
-                            if child.name in ('b', 'strong'):
+                            if child.name in ("b", "strong"):
                                 text += f"**{child.get_text()}**"
-                            elif child.name in ('i', 'em'):
+                            elif child.name in ("i", "em"):
                                 text += f"*{child.get_text()}*"
                             elif child.string:
                                 text += child.string
                         markdown_content.append(text.strip() + "\n")
 
-        with open(output_md_path, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(markdown_content))
+        with open(output_md_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(markdown_content))
 
     def extract_chapter_by_index(self, md_path, chapter_number, level=2):
-        with open(md_path, 'r', encoding='utf-8') as f:
+        with open(md_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
 
         heading_prefix = "#" * level + " "
@@ -69,32 +66,26 @@ class BookTranslator:
             elif in_chapter:
                 content.append(line)
 
-        return ''.join(content)
+        return "".join(content)
 
     def translate_chapter(self, text):
         response = openai.ChatCompletion.create(
             model=self.model,
             messages=[
                 {"role": "system", "content": self.prompt},
-                {"role": "user", "content": text}
-            ]
+                {"role": "user", "content": text},
+            ],
         )
-        return response.choices[0].message['content']
+        return response.choices[0].message["content"]
 
     def translate_epub_to_translated_epub(
-        self,
-        input_epub_path,
-        output_epub_path,
-        chapter_start,
-        chapter_end,
-        level=2
+        self, input_epub_path, output_epub_path, chapter_start, chapter_end, level=2
     ):
         temp_md = self.temp_md_path
         self.extract_epub_to_markdown(input_epub_path, temp_md)
 
         all_translations = []
         for chap_num in range(chapter_start, chapter_end + 1):
-
             try:
                 chap = self.extract_chapter_by_index(temp_md, chap_num, level)
             except Exception as e:
@@ -112,23 +103,23 @@ class BookTranslator:
             time.sleep(self.delay)
 
         final_md = temp_md.replace(".md", "_translated.md")
-        with open(final_md, 'w', encoding='utf-8') as f:
-            f.write('\n\n'.join(all_translations))
+        with open(final_md, "w", encoding="utf-8") as f:
+            f.write("\n\n".join(all_translations))
 
         try:
             convert_args = [
-                '--standalone',
-                '--toc',
+                "--standalone",
+                "--toc",
             ]
             if self.css_path:
-                convert_args.append(f'--css={self.css_path}')
+                convert_args.append(f"--css={self.css_path}")
 
             pypandoc.convert_file(
                 final_md,
-                to='epub',
-                format='markdown',
+                to="epub",
+                format="markdown",
                 outputfile=output_epub_path,
-                extra_args=convert_args
+                extra_args=convert_args,
             )
             print(f"EPUB écrit : {os.path.abspath(output_epub_path)}")
 
