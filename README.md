@@ -25,13 +25,16 @@ La pipeline s'articule ainsi :
 ```text
 gpt_ebook_translator/ 
 ├── images/
-│   ├──schema/
-│       └── schema_glo.png
-|   └──covers/
-├── main.py
-├── functions.py
-├── epub.css
-└── README.md
+│   ├── schema/
+│   │   └── schema_glo.png      #Schéma expliquant la pipeline complète
+│   └── covers/                 #Dossier pour stocker les couvertures d'ebooks (optionnel mais c'est vraiment joli)
+├── .gitignore                  #Fichiers à ignorer par Git
+├── README.md                   #Ce document
+├── epub.css                    #Pour la mise en forme de l'ebook de sortie
+├── functions.py                #Fonctions principales
+├── main.py                     #Script principal
+├── requirements.txt            #Pour répliquer l'env
+└── translate.sh                #Script shell pour lancer l’ensemble de la pipeline
 ```
 
 Il n'y a malheureusement aucun fichier d'input ou d'output dans ce repo afin de respecter les droits d'auteur.  
