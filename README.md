@@ -7,7 +7,7 @@ Cependant j'ai très vite vu que les tranductions fanmade s'arrêtaient tôt dan
 J'ai donc cherché si le webnovel était disponible sur internet et j'ai trouvé sa version originale (en mandarin) et une seconde en anglais.  
 Malheureusement je ne parle pas le mandarin et je ne me sentais pas de lire 1500+ chapitres dans la langue de Shakespear alors j'ai eu l'idée de ce projet. 
 
-Voici pour les curieux, voici le trailer de l'animé :  
+Pour les curieux, voici le trailer de l'animé :  
 
 <p align="center">
   <a href="https://youtu.be/cbdDMWAuHks?si=0Xe5hF28gJ_pu6Xc">
