@@ -5,4 +5,4 @@ OUTPUT_EPUB="$2" #Path of the .epub you want to create
 CHAP_START="$3" #First chapter you want to translate
 CHAP_END="$4" #Last chapter you want to translate
 
-caffeinate python main.py main.py "$INPUT_EPUB" "$OUTPUT_EPUB" "$CHAP_START" "$CHAP_END"
+caffeinate python main.py "$INPUT_EPUB" "$OUTPUT_EPUB" "$CHAP_START" "$CHAP_END"

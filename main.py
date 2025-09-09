@@ -22,6 +22,7 @@ PROMPT = """
  Do not translate proper nouns. 
  Keep ellipses and punctuation. 
  Return clean, fluent, structured Markdown.
+ Make sure that you don't repeat yourself in your translation it often happened before.
  """
 
 
