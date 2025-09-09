@@ -3,10 +3,10 @@ import re
 import time
 
 import ebooklib
-import openai
 import pypandoc
 from bs4 import BeautifulSoup
 from ebooklib import epub
+from openai import OpenAI
 
 
 class BookTranslator:
@@ -18,6 +18,7 @@ class BookTranslator:
         self.css_path = css_path
         self.temp_md_path = temp_md_path or os.path.join(os.getcwd(), "temp.md")
         self.delay = delay
+        self.client = OpenAI()
 
     def extract_epub_to_markdown(self, epub_path, output_md_path):
         markdown_content = []
@@ -71,7 +72,7 @@ class BookTranslator:
         return "".join(content)
 
     def translate_chapter(self, text):
-        response = openai.ChatCompletion.create(
+        response = self.client.chat.completions.create(
             model=self.model,
             temperature = 0,
             messages=[
@@ -79,7 +80,7 @@ class BookTranslator:
                 {"role": "user", "content": text},
             ],
         )
-        traduction = response.choices[0].message["content"]
+        traduction = response.choices[0].message.content
         traduction_no_rep = re.sub(r'(\b[^.!?]+[.!?])(\s+\1)+', r'\1', traduction)
         return traduction_no_rep
 

@@ -76,7 +76,7 @@ pip install -r requirements.txt
 Ajouter au shell votre clé API et donnez lui les droits d'execution : 
 ```bash
 code translate.sh #Changez la variable OPENAI_API_KEY et remplacez la par votre clé et sauvegardez le fichier
-chmod +x translate .sh
+chmod +x translate.sh
 ```
 
 Pour traduire un ebook pour pourrez ainsi procéder de la manière suivante : 
