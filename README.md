@@ -5,7 +5,7 @@ Ce projet a été inspiré par ma récente découverte d'un webnovel chinois.
 Après avoir regardé les premiers épisodes de l'animé **Lord Of The Mysteries**, j'ai eu envie de commencer à lire le webnovel.  
 Cependant j'ai très vite vu que les tranductions fanmade s'arrêtaient tôt dans leurs parutions.  
 J'ai donc cherché si le webnovel était disponible sur internet et j'ai trouvé sa version originale (en mandarin) et une seconde en anglais.  
-Malheureusement je ne parle pas le mandarin et je ne me sentais pas de lire 1500+ chapitres dans la langue de Shakespear alors j'ai eu l'idée de ce projet. 
+Malheureusement je ne parle pas le mandarin et je ne me sentais pas de lire 1500+ chapitres dans la langue de Shakespeare alors j'ai eu l'idée de ce projet. 
 
 Pour les curieux, voici le trailer de l'animé :  
 
