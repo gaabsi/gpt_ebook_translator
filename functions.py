@@ -1,10 +1,10 @@
 import os
-import re 
+import re
 import time
 
 import ebooklib
 import pypandoc
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString, Tag
 from ebooklib import epub
 from openai import OpenAI
 
@@ -26,7 +26,7 @@ class BookTranslator:
 
         for item in book.get_items():
             if item.get_type() == ebooklib.ITEM_DOCUMENT:
-                soup = BeautifulSoup(item.get_content(), features="xml")  
+                soup = BeautifulSoup(item.get_content(), features="xml")
                 for tag in soup.find_all(["h1", "h2", "h3", "h4", "p"]):
                     if tag.name.startswith("h"):
                         level = int(tag.name[1])
@@ -35,13 +35,16 @@ class BookTranslator:
                         )
                     elif tag.name == "p":
                         text = ""
-                        for child in tag.descendants:
-                            if child.name in ("b", "strong"):
-                                text += f"**{child.get_text()}**"
-                            elif child.name in ("i", "em"):
-                                text += f"*{child.get_text()}*"
-                            elif child.string:
-                                text += child.string
+                        for child in tag.children:
+                            if isinstance(child, Tag):
+                                if child.name in ("b", "strong"):
+                                    text += f"**{child.get_text()}**"
+                                elif child.name in ("i", "em"):
+                                    text += f"*{child.get_text()}*"
+                                else:
+                                    text += child.get_text()
+                            elif isinstance(child, NavigableString):
+                                text += str(child)
                         markdown_content.append(text.strip() + "\n")
 
         with open(output_md_path, "w", encoding="utf-8") as f:
@@ -74,14 +77,14 @@ class BookTranslator:
     def translate_chapter(self, text):
         response = self.client.chat.completions.create(
             model=self.model,
-            temperature = 0,
+            temperature=0,
             messages=[
                 {"role": "system", "content": self.prompt},
                 {"role": "user", "content": text},
             ],
         )
         traduction = response.choices[0].message.content
-        traduction_no_rep = re.sub(r'(\b[^.!?]+[.!?])(\s+\1)+', r'\1', traduction)
+        traduction_no_rep = re.sub(r"(\b[^.!?]+[.!?])(\s+\1)+", r"\1", traduction)
         return traduction_no_rep
 
     def translate_epub_to_translated_epub(

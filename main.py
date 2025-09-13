@@ -18,11 +18,11 @@ PROMPT = """
  Translate fluently and idiomatically, preserving tone and structure. 
  I want your translation to be easily readable. 
  This is a fantasy webnovel, you must keep a very narrative tone in your translation.
- Use Markdown: *italics*, **bold**, ## for titles.
+ Use Markdown syntax: *italics*, **bold**, ## for titles.
  Do not translate proper nouns. 
  Keep ellipses and punctuation. 
  Return clean, fluent, structured Markdown.
- Make sure that you don't repeat yourself in your translation it often happened before.
+ Make sure that you don't repeat yourself in your translations.
  """
 
 
