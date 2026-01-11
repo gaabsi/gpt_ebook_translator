@@ -1,6 +1,6 @@
 # translation_goes_brrr
 
-![Python](https://img.shields.io/badge/python-3.9-blue?style=flat&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/python-3.9+-blue?style=flat&logo=python&logoColor=white)
 ![Parallel Processing](https://img.shields.io/badge/ThreadPoolExecutor-grey?style=flat&logo=python&logoColor=white)
 ![GPT-4o](https://img.shields.io/badge/GPT--4o-Trad-412991?style=flat&logo=openai&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker&logoColor=white)
